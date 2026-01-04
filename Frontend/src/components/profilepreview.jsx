@@ -11,7 +11,7 @@ const ProfilePreviewCard = ({ title, redirect }) => {
   useEffect(() => {
     const fetchPins = async () => {
       try {
-        const { data } = await axios.get("/api/pins/getmypin"); // 👈 fetch user pins
+        const { data } = await api.get("/api/pins/getmypin"); // 👈 fetch user pins
         // randomly pick 3
         const randomPins = data.sort(() => 0.5 - Math.random()).slice(0, 3);
         setPins(randomPins);

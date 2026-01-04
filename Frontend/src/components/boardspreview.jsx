@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../lib/axios";
 
 const Boardspreview=()=>{
    
@@ -11,7 +12,7 @@ const Boardspreview=()=>{
   useEffect(()=>{
     const fetchboards=async()=>{
         try {
-        const {data}=await axios.get("/api/boards/userboards")
+        const {data}=await api.get("/api/boards/userboards")
         setboards(data)
     } catch (error) {
       console.log(error)

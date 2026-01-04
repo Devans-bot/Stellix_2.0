@@ -34,7 +34,7 @@ const location = useLocation();
        
       try {
         setnloading(true)
-        const { data } = await axios.post("/api/pins/relatedpins", { pinId })
+        const { data } = await api.post("/api/pins/relatedpins", { pinId })
         setrpins(data.results)
         setnloading(false)
       } catch (error) {

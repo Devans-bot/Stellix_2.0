@@ -51,7 +51,7 @@ const Pincard = ({ pin, index, onOpen }) => {
       setCachedPin(pin._id, preview);
       if (!hasCachedPin(pin._id)) {
 
-      axios.get(`/api/pins/${pin._id}`).then((res) => {
+      api.get(`/api/pins/${pin._id}`).then((res) => {
         if (res?.data) setCachedPin(pin._id, res.data);
       }).catch(() => {});
     }

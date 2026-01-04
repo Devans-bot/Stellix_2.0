@@ -10,6 +10,7 @@ import Topics from '../components/topics'
 import { setCachedPin, getCachedPin, hasCachedPin } from "../components/pinPreviewCache.js";
 
 import Searchbar from '../components/searchbar'
+import api from '../lib/axios.js'
 
 const Home = () => {
   const { pins, loading,filter,setfilter } = Pindata()
@@ -20,7 +21,7 @@ const pinElementsRef = useRef(new Map());
 
  const prefetchPin = async (id) => {
   try {
-    const res = await axios.get(`/api/pins/${id}`);
+    const res = await api.get(`/api/pins/${id}`);
     if (res?.data) setCachedPin(id, res.data);
   } catch {
     // fallback minimal cache to avoid refetch delay

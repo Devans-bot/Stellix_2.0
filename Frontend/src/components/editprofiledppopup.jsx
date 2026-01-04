@@ -36,7 +36,7 @@ try {
      setloading(true)
     const formdata=new FormData()
     formdata.append("file",file)
-    const {data}=await axios.post(`/api/user/dp/${user._id}`,formdata)
+    const {data}=await api.post(`/api/user/dp/${user._id}`,formdata)
     setloading(false)
     toast.success("Profile picture updated !")
        onClose()

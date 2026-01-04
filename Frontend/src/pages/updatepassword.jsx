@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import BackButton from '../components/backbutton'
+import api from '../lib/axios'
 
 const Updatepassword = () => {
   const [crntpswrd, setcrntpswrd] = useState("")
@@ -13,7 +14,7 @@ const Updatepassword = () => {
     e.preventDefault() // stop page refresh
 
     try {
-      const { data } = await axios.post("/api/user/updatepassword", {
+      const { data } = await api.post("/api/user/updatepassword", {
         currentpassword: crntpswrd,
         newpassword: newpswrd,
       })

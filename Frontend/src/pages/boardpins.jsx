@@ -59,7 +59,7 @@ const Boardpins = () => {
 
         try {
             setloading(true)
-            const {data}=await axios.post(`/api/boards/boardpins/${boardId}`)
+            const {data}=await api.post(`/api/boards/boardpins/${boardId}`)
             setpins(data.pins || [])
             setloading(false)
         } catch (error) {
@@ -79,7 +79,7 @@ const Boardpins = () => {
 
   const handleDeletePins=async()=>{
     try {
-      const {data}=await axios.post("/api/boards/deletepins",{pins:selectedPins,boardId:boardId})
+      const {data}=await api.post("/api/boards/deletepins",{pins:selectedPins,boardId:boardId})
       setpins((prev)=>prev.filter((pin)=>!selectedPins.includes(pin._id)))
       setselectedPins([])
       setdeletemode(false)
@@ -94,7 +94,7 @@ const Boardpins = () => {
   const deleteboard=async()=>{
     try {
       setlo
-      const {data}=await axios.post(`/api/boards/deleteboard/${boardId}`)
+      const {data}=await api.post(`/api/boards/deleteboard/${boardId}`)
       toast.success(data.message)
       navigate("/account")
     } catch (error) {

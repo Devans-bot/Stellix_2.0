@@ -94,7 +94,7 @@ const Boardcontent = () => {
     const fetchPins = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.post(`/api/boards/boardpins/${boardId}`); // ✅ Use GET
+        const { data } = await api.post(`/api/boards/boardpins/${boardId}`); // ✅ Use GET
         setPins(data.pins|| []); // ✅ Ensure pins array
         
       } catch (error) {

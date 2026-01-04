@@ -6,6 +6,7 @@ import Pincard from '../components/selectpincard';
 import { Loading, Loadinganimation } from '../components/loading';
 import BackButton from '../components/backbutton';
 import { boarddata } from '../context/boardcontext';
+import api from '../lib/axios';
 
 const mobileview = {
   default: 1,
@@ -40,7 +41,7 @@ const Selectpins = () => {
       if (!name) return;
       try {
         setnloading(true);
-        const { data } = await axios.post('/api/boards/relatedpinsinboard', {name});
+        const { data } = await api.post('/api/boards/relatedpinsinboard', {name});
         setrpins(data.pins || []);
       } catch (error) {
         console.error('Error fetching pins:', error);

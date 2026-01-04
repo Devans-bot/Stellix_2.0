@@ -28,7 +28,7 @@ const Account = ({ user }) => {
 
   const logouthandler = async () => {
     try {
-      const { data } = await axios.get('/api/user/logout');
+      const { data } = await api.get('/api/user/logout');
       toast.success(data.message);
       navigate('/getstarted');
       setisauth(false);

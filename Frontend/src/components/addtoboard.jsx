@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 import { Loadinganimation } from './loading'
 import { Bookmark, Save } from 'lucide-react'
+import api from '../lib/axios'
 
 const Addtoboard = ({onClose}) => {
 
@@ -17,7 +18,7 @@ const Addtoboard = ({onClose}) => {
    useEffect(()=>{
     const fetchboards=async()=>{
          try {
-        const{data}=await axios.get("/api/boards/userboards")
+        const{data}=await api.get("/api/boards/userboards")
         setboards(data)
     } catch (error) {
         console.log(error)
@@ -30,7 +31,7 @@ const Addtoboard = ({onClose}) => {
 
    const submithandler=async(boardId)=>{
     try {
-        const {data}=await axios.post(`/api/boards/newpin/${pin}`,{boardId})
+        const {data}=await api.post(`/api/boards/newpin/${pin}`,{boardId})
         toast.success(data.message)
         onClose()
     } catch (error) {
