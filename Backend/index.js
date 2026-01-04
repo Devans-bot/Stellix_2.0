@@ -44,14 +44,9 @@ app.use('/api/pins', pinroutes);
 app.use('/api/boards', boardroutes);
 app.use('/api/ai', airoutes);
 
-// ✅ Serve Frontend (production)
-const frontendPath = path.join(__dirname,"../Frontend/dist");
-app.use(express.static(frontendPath));
-
-// ⚡️ Express 5-safe wildcard route (fixes your crash)
-app.get(/.*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../Frontend/dist", "index.html"));
-  });
+app.get("/", (req, res) => {
+  res.send("🚀 Stellix Backend is running");
+});
 
 // ✅ Start Server + Connect DB
 const PORT = process.env.PORT || 5000;
