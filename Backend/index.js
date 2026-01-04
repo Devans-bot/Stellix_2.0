@@ -32,8 +32,10 @@ app.use(compression())
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'https://stellix-2-0.vercel.app',
-    credentials: true,
+ origin: [
+      "https://stellix-2-0.vercel.app",
+      /\.vercel\.app$/,   // ✅ allow ALL vercel preview URLs
+    ],    credentials: true,
   })
 );
 app.use(express.json());
