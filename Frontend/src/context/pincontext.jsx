@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import React from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import api from "../lib/axios";
 
 const Pincontext=createContext()
 
@@ -17,7 +17,7 @@ export const Pinprovider=({children})=>{
      async function fetchpins(){
       try {
         const url = filter === "following" ? "/api/pins/following":"/api/pins/all"
-        const {data}=await axios.get(url)
+        const {data}=await api.get(url)
         setpins(data)
         setloading(false)
         if(filter===pins){
@@ -33,7 +33,7 @@ export const Pinprovider=({children})=>{
     async function fetchpin(id, { silent = false } = {}) {
       try {
         if (!silent) setpin(null);  // prevent white flash when silent
-        const { data } = await axios.get("/api/pins/single/" + id);
+        const { data } = await api.get("/api/pins/single/" + id);
         setpin(data);
       } catch (error) {
         console.log(error);
@@ -44,7 +44,7 @@ export const Pinprovider=({children})=>{
 
   async function updatepin(id, title, pinvalue, setedit) {
   try {
-    const { data } = await axios.put(`/api/pins/${id}`, {
+    const { data } = await api.put(`/api/pins/${id}`, {
       title,
       pin: pinvalue,
     });
@@ -67,7 +67,7 @@ export const Pinprovider=({children})=>{
 
    async function addcmmnt(id,comment,setcmmnt){
     try {
-      const {data}= await axios.post("/api/pins/comment/"+id,{comment})
+      const {data}= await api.post("/api/pins/comment/"+id,{comment})
       toast.success(data.message)
       fetchpin(id)
       setcmmnt('')
@@ -78,7 +78,7 @@ export const Pinprovider=({children})=>{
 
   async function deletecomment(id, commentid) {
     try {
-      const { data } = await axios.delete(
+      const { data } = await api.delete(
         `/api/pins/deletecomment/${id}?commentId=${commentid}`
       );
       toast.success(data.message);
@@ -91,7 +91,7 @@ export const Pinprovider=({children})=>{
   
   async function deletePin(id,navigate){
      try {
-      const { data } = await axios.delete(
+      const { data } = await api.delete(
         `/api/pins/${id}`
       );  
       toast.success(data.message)
@@ -107,7 +107,7 @@ export const Pinprovider=({children})=>{
   async function addpin(formdata, setUploadFilePrev, setUploadFile, settitle, setpin, navigate) {
     try {
       setloading(true);
-      const { data } = await axios.post("/api/pins/createpin", formdata);
+      const { data } = await api.post("/api/pins/createpin", formdata);
       
       toast.success(data.message);
       setUploadFile([]);
@@ -130,7 +130,7 @@ export const Pinprovider=({children})=>{
 
 const likePin = async (pinId) => {
   try {
-    const { data } = await axios.put(`/api/pins/like/${pinId}`);
+    const { data } = await api.put(`/api/pins/like/${pinId}`);
     return data; // data = { msg, likescount, liked }
   } catch (error) {
     console.error("Error liking pin:", error);

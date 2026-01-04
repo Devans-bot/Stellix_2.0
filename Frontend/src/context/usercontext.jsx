@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import React from 'react';
 import toast, {Toaster} from 'react-hot-toast'
-import axios from 'axios';
 import { Pindata } from "./pincontext";
+import api from "../lib/axios";
 
 
 const Usercontext=createContext()
@@ -16,7 +16,7 @@ export const UserProvider=({children})=>{
   async function loginuser(email,password,navigate,fetchpins){
     setbtnloading(true)
      try {
-          const {data}=await axios.post("/api/user/login",{email,password})
+          const {data}=await api.post("/api/user/login",{email,password})
           if (!data.user || !data.user.name) {
             toast.error("User not found");
             return;
@@ -39,7 +39,7 @@ export const UserProvider=({children})=>{
   async function registeruser(name,email,password,navigate,fetchpins){
     setbtnloading(true)
      try {
-          const {data}=await axios.post("/api/user/register",{name,email,password})
+          const {data}=await api.post("/api/user/register",{name,email,password})
            
           toast.success(data.message)
           setbtnloading(false)
@@ -60,7 +60,7 @@ export const UserProvider=({children})=>{
   async function fetchuser() {
     try {
       setloading(true)
-      const { data } = await axios.get("/api/user/me");
+      const { data } = await api.get("/api/user/me");
       setuser(data);
       setisauth(true);
     } catch (error) {
@@ -79,7 +79,7 @@ export const UserProvider=({children})=>{
 
   async function follow(id,fetchUser){
     try {
-      const {data}= await axios.post("/api/user/follow/"+id)
+      const {data}= await api.post("/api/user/follow/"+id)
       fetchUser()
       toast.success(data.message)
     } catch (error) {
@@ -89,7 +89,7 @@ export const UserProvider=({children})=>{
 
   async function forgot(email){
     try {
-      const {data}=await axios.post("/api/user/forgot-password",{email})
+      const {data}=await api.post("/api/user/forgot-password",{email})
       toast.success(data.message)
     } catch (error) {
       console.log(error)
@@ -99,7 +99,7 @@ export const UserProvider=({children})=>{
 
   async function reset(token,password){
     try {
-       const {data}=await axios.post(`/api/user/reset-password/${token}`,{password})
+       const {data}=await api.post(`/api/user/reset-password/${token}`,{password})
        toast.success(data.message)
        navigate("/")
     } catch (error) {
@@ -110,7 +110,7 @@ export const UserProvider=({children})=>{
 
 async function updatename(name,navigate) {
   try {
-    const {data}=await axios.post("/api/user/username",{name})
+    const {data}=await api.post("/api/user/username",{name})
     toast.success(data.message)
     if(data)(
           navigate("/account")

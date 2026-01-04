@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { Loading } from "../components/loading";
+import api from "../lib/axios";
 
 const BoardContext = createContext();
 
@@ -13,7 +13,7 @@ export const BoardProvider = ({ children }) => {
 
  async function newboard(name, navigate) {
   try {
-    const { data } = await axios.post("/api/boards/newboard", { name });
+    const { data } = await api.post("/api/boards/newboard", { name });
     return data.boardId
    
   } catch (error) {
@@ -25,7 +25,7 @@ export const BoardProvider = ({ children }) => {
 
   async function findpins(name) {
     try {
-      const { data } = await axios.get("/api/boards/relatedpinsinboard", { name });
+      const { data } = await api.get("/api/boards/relatedpinsinboard", { name });
       setrpins(data); // or setrpins(data.pins) depending on API response
       console.log(data);
       if (data.message) toast.success(data.message);
@@ -37,7 +37,7 @@ export const BoardProvider = ({ children }) => {
 
   async function addPinsToBoard(boardName, pinIds) {
     try {
-      const { data } = await axios.post("/api/boards/addpins/toboard", {
+      const { data } = await api.post("/api/boards/addpins/toboard", {
         boardName,
         pinIds
       });
