@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Loader } from "lucide-react";
+import api from "../lib/axios";
 
 const ProfilePreviewCard = ({ title, redirect }) => {
   const [pins, setPins] = useState([]);

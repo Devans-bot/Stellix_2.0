@@ -69,6 +69,7 @@ import Masonry from 'react-masonry-css';
 import { Loading } from '../components/loading';
 import Pincard from '../components/pincard';
 import BackButton from '../components/backbutton';
+import api from '../lib/axios';
 
 const Boardcontent = () => {
   const { boardId } = useParams();

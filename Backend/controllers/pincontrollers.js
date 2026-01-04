@@ -44,16 +44,15 @@ const compressedSizeKB = (compressedBuffer.length / 1024).toFixed(2);
 console.log(`🗜️ Compressed image size: ${compressedSizeKB} KB`);
 
 // Convert compressed buffer to Data URI
-const fileUri = getdataurl({
-  buffer: compressedBuffer,
-  mimetype: "image/jpeg",
-});
 
     // Upload image to Cloudinary
-    const uploadResult = await cloudinary.v2.uploader.upload(fileUri.content, { folder: "pins" });
+const uploadResult = await cloudinary.v2.uploader.upload(
+  `data:image/jpeg;base64,${compressedBuffer.toString("base64")}`,
+  { folder: "pins" }
+);
 
     // Analyze image: objects, colors, OCR
-    const { objects, colors} = await analyzeImage(req.file.buffer);
+    const { objects, colors} = await analyzeImage(compressedBuffer);
 
     // 🔹 Extract keywords from title + pin (description)
     const titleWords = extractWords(title);
@@ -151,17 +150,6 @@ export const searchpins = async (req, res) => {
     return res.status(500).json({ error: "Server error during search" });
   }
 };
-
-
-
-
-
-
-
-
-
-
-
 
 
 

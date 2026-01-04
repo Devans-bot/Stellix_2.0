@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { useLocation, useNavigate } from "react-router-dom";
 import { setCachedPin, getCachedPin } from "../components/pinPreviewCache";
 import { Loading, Loadinganimation } from './loading'
+import api from '../lib/axios'
 
 const mobileview = {
   default: 1,

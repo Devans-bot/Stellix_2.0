@@ -8,6 +8,7 @@ import BoardsPreview from '../components/boardspreview';
 import { CiMenuKebab } from 'react-icons/ci';
 import useOutsideClick from '../components/popupremove';
 import gsap from 'gsap';
+import api from '../lib/axios';
 
 const Account = ({ user }) => {
   const [open, setopen] = useState(false);

@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import useOutsideClick from '../components/popupremove'
 import gsap from 'gsap'
 import { Loading, Loadinganimation } from '../components/loading'
+import api from '../lib/axios'
 
 
 const Boardpins = () => {

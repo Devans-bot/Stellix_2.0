@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { setCachedPin, getCachedPin, hasCachedPin } from "../components/pinPreviewCache.js";
 import axios from "axios";
+import api from '../lib/axios.js';
 
 
 const Pincard = ({ pin, index, onOpen }) => {

@@ -7,6 +7,7 @@ import Masonry from 'react-masonry-css'
 
 import { userdata } from '../context/usercontext'
 import BackButton from '../components/backbutton'
+import api from '../lib/axios'
 
 const Userprofile = ({user: loggedInUser}) => {
 
