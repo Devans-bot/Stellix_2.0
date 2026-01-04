@@ -9,7 +9,8 @@ import dlogo from"../assets/dlogo.png"
 
 const Getstarted = () => {
     
-    
+      console.log("API URL =", import.meta.env.VITE_API_URL);
+
     const navigate=useNavigate()
 
     const handleonclick=()=>{
