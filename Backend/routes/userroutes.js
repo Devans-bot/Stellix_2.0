@@ -5,18 +5,22 @@ import uploadfile from "../middlewears/multer.js";
 
 const router=express.Router()
 
-router.post('/forgot-password', forgotpassword);
+router.post("/register", registeruser);
+router.post("/login", login);
+router.get("/logout", logoutuser);
 
-router.post('/reset-password',resetpassword)     // ✅ Must be before any :id route
-router.post('/reset-password/:token', resetpassword); // ✅ Same
-router.get('/me', isauth, myprofile);
-router.post('/username', isauth, updateusername);
-router.post('/register', registeruser);
-router.post('/login', login);
-router.post('/updatepasswo  rd', isauth,updatepassword);
-router.get('/logout', logoutuser);
-router.post('/follow/:id', isauth, followunfollow);
-router.post('/dp/:id',isauth,uploadfile,updateProfilePicture)
-router.get('/:id', getUserProfile);                  // ⚠️ Always keep this last
+router.post("/forgot-password", forgotpassword);
+router.post("/reset-password", resetpassword);
+router.post("/reset-password/:token", resetpassword);
 
-export default router
+router.get("/me", isauth, myprofile);
+router.post("/username", isauth, updateusername);
+router.post("/updatepassword", isauth, updatepassword);
+
+// 👥 SOCIAL
+router.post("/follow/:id", isauth, followunfollow);
+router.post("/dp/:id", isauth, uploadfile, updateProfilePicture);
+
+// ⚠️ ALWAYS LAST
+router.get("/:id", getUserProfile);
+export default router   
