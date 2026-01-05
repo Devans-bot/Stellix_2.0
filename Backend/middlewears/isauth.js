@@ -20,7 +20,7 @@ export const isauth=async(req,res,next)=>{
        next()
     } catch (error) {
         res.status(404).json({
-            message:"please logins"
+            message:"expired token"
         })
     }
 }

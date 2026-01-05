@@ -8,7 +8,9 @@ const genratetoken=(id,res)=>{
    res.cookie("token", token, {
   httpOnly: true,
   secure: true,          // REQUIRED
-  sameSite: "none",      // REQUIRED
+  sameSite: "none",
+    path: "/",                // 👈 ADD THIS
+      // REQUIRED
   maxAge: 7 * 24 * 60 * 60 * 1000,
 });
 

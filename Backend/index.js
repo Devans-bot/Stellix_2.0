@@ -26,18 +26,22 @@ cloudinary.v2.config({
 });
 
 const app = express();
+app.set("trust proxy", 1);
 
 // ✅ Middlewares
 app.use(compression())
 app.use(cookieParser());
 app.use(
   cors({
- origin: [
+    origin: [
       "https://stellix-2-0.vercel.app",
-      /\.vercel\.app$/,   // ✅ allow ALL vercel preview URLs
-    ],    credentials: true,
+      /\.vercel\.app$/,   // ✅ allows ALL vercel preview URLs
+    ],
+    credentials: true,
   })
 );
+
+
 app.use(express.json());
 
 // ✅ API Routes
