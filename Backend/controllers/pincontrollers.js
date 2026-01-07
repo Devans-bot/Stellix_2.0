@@ -59,6 +59,12 @@ export const createpin = async (req, res) => {
       message: "Pin created successfully",
       pin: newPin,
     });
+analyzePinAsync(
+  newPin._id,
+  req.file.buffer,
+  newPin.title,
+  newPin.pin
+);
 
   } catch (err) {
     console.error("createpin error:", err);

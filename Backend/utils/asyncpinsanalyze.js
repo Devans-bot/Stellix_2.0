@@ -26,8 +26,9 @@ const analyzePinAsync = async (pinId, buffer, title, pin) => {
       colors,
       tags,
     });
-
-    console.log("✅ Analysis done for", pinId);
+    
+    res.json(pin.tags)
+    
   } catch (err) {
     console.error("Analysis failed:", err);
   }
