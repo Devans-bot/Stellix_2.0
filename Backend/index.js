@@ -37,6 +37,7 @@ app.use(
       "https://stellix-2-0.vercel.app",
       /\.vercel\.app$/,   // ✅ allows ALL vercel preview URLs
     ],
+    credentials:true
   })
 );
 
