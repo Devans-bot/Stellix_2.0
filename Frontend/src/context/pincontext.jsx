@@ -102,20 +102,25 @@ export const Pinprovider=({children})=>{
       console.log(error)
      }
   }
+  const [UploadPercent,setUploadPercent]=useState('')
 
   
   async function addpin(formdata, setUploadFilePrev, setUploadFile, settitle, setpin, navigate) {
     try {
       setloading(true);
-      const { data } = await api.post("/api/pins/createpin", formdata);
-      
+      const { data } = await api.post("/api/pins/createpin", formdata, {
+                                        onUploadProgress: (e) => {
+                                        const percent = Math.round((e.loaded * 100) / e.total);
+                                         setUploadPercent(percent);
+                                         },});
       toast.success(data.message);
       setUploadFile([]);
       setUploadFilePrev("");
       setpin("");
       settitle("");
-      fetchpins();
-      navigate("/")
+      const newPin = data.pin;
+    setpins((prev) => [newPin, ...prev]); 
+     navigate("/")
   
     } catch (error) {
       console.log(error);
@@ -147,7 +152,7 @@ const likePin = async (pinId) => {
      
 
 
-    return <Pincontext.Provider value={{pins,filter,setfilter,loading,setloading,fetchpin,pin,setpin,updatepin,addcmmnt,deletecomment,deletePin,addpin,fetchpins,likePin,rpins,setrpins}}>{children}</Pincontext.Provider>
+    return <Pincontext.Provider value={{UploadPercent,setUploadPercent,pins,filter,setfilter,loading,setloading,fetchpin,pin,setpin,updatepin,addcmmnt,deletecomment,deletePin,addpin,fetchpins,likePin,rpins,setrpins}}>{children}</Pincontext.Provider>
 }
 
 export const Pindata=()=>useContext(Pincontext)

@@ -20,6 +20,7 @@ import { RiSearch2Line } from "react-icons/ri";
 import { LuCircleFadingPlus } from "react-icons/lu";
 import { NIL } from "uuid";
 import logo from "../assets/S.gif";
+import imageCompression from "browser-image-compression";
 
 
 
@@ -42,7 +43,6 @@ const Navbar = ({ user }) => {
 
   const handelclick=()=>{
       inputref.current.click()
-
   }
 
   const handleReload = () => window.location.reload();
@@ -72,20 +72,34 @@ useLayoutEffect(() => {
 
 
 
-  const changefilehandler = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-  
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-  
-    reader.onloadend = () => {
-      setUploadFile(file);
-      setUploadFilePrev(reader.result);
-      navigate("/create");
-      setOpen(false) // ✅ go to create page after selecting  
-    };
-  };
+const changefilehandler = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    console.log("Original:", (file.size / 1024).toFixed(2), "KB");
+
+    const compressedFile = await imageCompression(file, {
+      maxSizeMB: 0.7,           // < 1MB = fast
+      maxWidthOrHeight: 1200,   // Pinterest standard
+      useWebWorker: true,
+    });
+
+    console.log("Compressed:", (compressedFile.size / 1024).toFixed(2), "KB");
+
+    const previewURL = URL.createObjectURL(compressedFile);
+
+    setUploadFile(compressedFile);       // 👈 send compressed
+    setUploadFilePrev(previewURL);       // 👈 preview compressed
+    navigate("/create");
+    setOpen(false);
+
+  } catch (err) {
+    console.error("Image compression failed", err);
+    alert("Image too large or unsupported format");
+  }
+};
+
  
 
   const [Pressed,setPressed]=useState(false)

@@ -29,7 +29,7 @@ const app = express();
 app.set("trust proxy", 1);
 
 // ✅ Middlewares
-app.use(compression())
+app.use("/api", compression());
 app.use(cookieParser());
 app.use(
   cors({
@@ -37,7 +37,6 @@ app.use(
       "https://stellix-2-0.vercel.app",
       /\.vercel\.app$/,   // ✅ allows ALL vercel preview URLs
     ],
-    credentials: true,
   })
 );
 

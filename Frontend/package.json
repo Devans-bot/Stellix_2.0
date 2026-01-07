@@ -13,6 +13,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-virtual": "^3.13.12",
     "axios": "^1.10.0",
+    "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",
     "gsap": "^3.13.0",

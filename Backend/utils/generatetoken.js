@@ -1,18 +1,9 @@
 import jwt from 'jsonwebtoken'
 
-const genratetoken=(id,res)=>{
+const genratetoken=(id)=>{
     const token= jwt.sign({id},process.env.JWT_SEC,{
         expiresIn:"15d"
     })
-
-   res.cookie("token", token, {
-  httpOnly: true,
-  secure: true,          // REQUIRED
-  sameSite: "none",
-    path: "/",                // 👈 ADD THIS
-      // REQUIRED
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-});
 
 }
 

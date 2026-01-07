@@ -4,16 +4,17 @@ import { useNavigate } from 'react-router-dom'
 import { useUpload } from '../context/uploadcontext'
 import { Loading, Loadinganimation } from '../components/loading'
 import LongLoading from '../components/longloading'
+import { uploadToCloudinary } from '../lib/cloudianryupload'
 
 function Create({ onClose }) {
-  const { addpin,loading,setloading } = Pindata()
+  const { addpin,loading,setloading,UploadPercent} = Pindata()
   const { uploadFile, uploadFilePrev, setUploadFile, setUploadFilePrev } = useUpload()
 
   const [title, settitle] = useState("")
   const [pin, setpin] = useState("")
   const navigate = useNavigate()
 
-  const submithandler = (e) => {
+  const submithandler = async(e) => {
     e.preventDefault()
     const formdata = new FormData()
     formdata.append("title", title)
@@ -38,7 +39,7 @@ function Create({ onClose }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-black">
-        <LongLoading/>
+        <p>⏳Uploading...{UploadPercent}</p>
       </div>
     )
   }

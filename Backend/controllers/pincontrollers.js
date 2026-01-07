@@ -5,8 +5,9 @@ import { User } from "../models/usermodel.js";
 import multer from "multer";
 import cloudinary  from "cloudinary";
 import sharp from "sharp";
-
+import uploadToCloudinary from "../utils/cloudinary.js";
 import { analyzeImage } from "../utils/analyzeImages.js";
+import analyzePinAsync from "../utils/asyncpinsanalyze.js";
 
 
 cloudinary.config({
@@ -23,63 +24,50 @@ const extractWords = (text = "") =>
     .filter((w) => w.length > 2 && !stopwords.has(w));
 
 export const createpin = async (req, res) => {
+  console.time("TOTAL");
+
   try {
     const { title, pin } = req.body;
-    if (!title || !pin) return res.status(400).json({ error: "Title and pin are required" });
-    if (!req.file) return res.status(400).json({ error: "Image file is required" });
+    const file = req.file;
 
-    // Convert buffer to Data URI
-// 🔍 ORIGINAL IMAGE SIZE
-const originalSizeKB = (req.file.buffer.length / 1024).toFixed(2);
-console.log(`📸 Original image size: ${originalSizeKB} KB`);
+    if (!title || !pin)
+      return res.status(400).json({ error: "Title and pin are required" });
 
-// 🔧 COMPRESS IMAGE USING SHARP
-const compressedBuffer = await sharp(req.file.buffer)
-  .resize({ width: 1200, withoutEnlargement: true }) // resize if large
-  .jpeg({ quality: 75 }) // adjust quality (60–80 is ideal)
-  .toBuffer();
+    if (!file)
+      return res.status(400).json({ error: "Image file is required" });
 
-// 🔍 COMPRESSED IMAGE SIZE
-const compressedSizeKB = (compressedBuffer.length / 1024).toFixed(2);
-console.log(`🗜️ Compressed image size: ${compressedSizeKB} KB`);
+    console.time("cloudinary");
+    const uploadResult = await uploadToCloudinary(file.buffer);
+    console.timeEnd("cloudinary");
 
-// Convert compressed buffer to Data URI
-
-    // Upload image to Cloudinary
-const uploadResult = await cloudinary.v2.uploader.upload(
-  `data:image/jpeg;base64,${compressedBuffer.toString("base64")}`,
-  { folder: "pins" }
-);
-
-    // Analyze image: objects, colors, OCR
-    const { objects, colors} = await analyzeImage(compressedBuffer);
-
-    // 🔹 Extract keywords from title + pin (description)
-    const titleWords = extractWords(title);
-    const descWords = extractWords(pin);
-
-    // 🔹 Merge all tags (remove duplicates)
-    const tags = [...new Set([...objects, ...colors, ...titleWords, ...descWords])];
-
-    // Save new pin
-    const newPin = new Pin({
+    console.time("mongo");
+    const newPin = await Pin.create({
       title,
       pin,
       owner: req.user._id,
-      image: { id: uploadResult.public_id, url: uploadResult.secure_url },
-      objects,
-      colors,
-      tags,
+      image: {
+        id: uploadResult.public_id,
+        url: uploadResult.secure_url,
+      },
+      objects: [],
+      colors: [],
+      tags: [],
+    });
+    console.timeEnd("mongo");
+
+    res.status(201).json({
+      message: "Pin created successfully",
+      pin: newPin,
     });
 
-    await newPin.save();
-
-    return res.status(201).json({ message: "Pin created successfully", pin: newPin });
   } catch (err) {
     console.error("createpin error:", err);
-    return res.status(500).json({ error: "Server error while creating pin" });
+    res.status(500).json({ error: "Server error" });
   }
+
+  console.timeEnd("TOTAL");
 };
+
 
 
 
