@@ -5,7 +5,6 @@ import userroutes from './routes/userroutes.js';
 import airoutes from './routes/airoutes.js';
 import boardroutes from './routes/boardroutes.js';
 import pinroutes from './routes/pinroutes.js';
-import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
 import cors from 'cors';
 import path from 'path';
@@ -30,24 +29,15 @@ app.set("trust proxy", 1);
 
 // ✅ Middlewares
 app.use("/api", compression());
-app.use(cookieParser());
 app.use(cors({
-  origin: function (origin, callback) {
-    const allowedOrigins = [
-      "http://localhost:5173",
-      "https://stellix-2-0-q2gg2og7p-divyanshs-projects-8b969f2d.vercel.app"
-    ];
-
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true, // 🔥 REQUIRED
+  origin: [
+    "http://localhost:5173",
+    "https://stellix-2-0-q2gg2og7p-divyanshs-projects-8b969f2d.vercel.app"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
 
 
 
