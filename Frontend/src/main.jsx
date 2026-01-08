@@ -9,7 +9,6 @@ import { BoardProvider } from './context/boardcontext.jsx';
 import { UploadProvider } from './context/uploadcontext.jsx';
 
 
-axios.defaults.withCredentials = true; 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 
