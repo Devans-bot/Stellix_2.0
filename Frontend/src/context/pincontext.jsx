@@ -106,13 +106,10 @@ export const Pinprovider=({children})=>{
 
   
   async function addpin(formdata, setUploadFilePrev, setUploadFile, settitle, setpin, navigate) {
+      setloading(true)
     try {
       setloading(true);
-      const { data } = await api.post("/api/pins/createpin", formdata, {
-                                        onUploadProgress: (e) => {
-                                        const percent = Math.round((e.loaded * 100) / e.total);
-                                         setUploadPercent(percent);
-                                         },});
+      const { data } = await api.post("/api/pins/createpin", formdata)
       toast.success(data.message);
       setUploadFile([]);
       setUploadFilePrev("");
@@ -127,7 +124,6 @@ export const Pinprovider=({children})=>{
       toast.error("Upload failed");
     } finally {
       setloading(false);
-      // ✅ Always runs
     }
   }
   

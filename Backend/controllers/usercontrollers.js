@@ -21,12 +21,11 @@ export const registeruser=async(req,res)=>{
             name,email,password:hashpassword,
         })
 
-const token = genratetoken(user._id);
+     genratetoken(user._id,res);
 
      
         res.json({
   success: true,
-  token,
   user,
 });
     } catch (error) {
@@ -57,11 +56,10 @@ export const login=async(req,res)=>{
         message:"User not found"
     })
 
-    const token=genratetoken(user._id)
+     genratetoken(user._id,res);
 
     res.status(200).json({
         message: "Logged in!",
-        token,
         user: {
           _id: user._id,
           name: user.name,

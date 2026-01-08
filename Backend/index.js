@@ -5,11 +5,10 @@ import userroutes from './routes/userroutes.js';
 import airoutes from './routes/airoutes.js';
 import boardroutes from './routes/boardroutes.js';
 import pinroutes from './routes/pinroutes.js';
+import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
-import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import compression from 'compression';
 
 dotenv.config();
 
@@ -25,22 +24,9 @@ cloudinary.v2.config({
 });
 
 const app = express();
-app.set("trust proxy", 1);
 
 // ✅ Middlewares
-app.use("/api", compression());
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://stellix-2-0-q2gg2og7p-divyanshs-projects-8b969f2d.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
-
-
-
-
+app.use(cookieParser());
 app.use(express.json());
 
 // ✅ API Routes
@@ -49,17 +35,19 @@ app.use('/api/pins', pinroutes);
 app.use('/api/boards', boardroutes);
 app.use('/api/ai', airoutes);
 
-app.get("/", (req, res) => {
-  res.send("🚀 Stellix Backend is running");
-});
+// ✅ Serve Frontend (production)
+const frontendPath = path.join(__dirname,"../Frontend/dist");
+app.use(express.static(frontendPath));
+
+// ⚡️ Express 5-safe wildcard route (fixes your crash)
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../Frontend/dist", "index.html"));
+  });
 
 // ✅ Start Server + Connect DB
-const PORT = process.env.PORT||5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {
   console.log(`✅ Server running on port ${PORT}`);
   await connectDb();
 });
-console.log("PORT:", process.env.PORT);
-console.log("MONGO_URI:", process.env.MONGO_URI);
-console.log("JWT_SEC:", process.env.JWT_SEC);

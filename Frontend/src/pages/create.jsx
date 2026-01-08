@@ -5,6 +5,7 @@ import { useUpload } from '../context/uploadcontext'
 import { Loading, Loadinganimation } from '../components/loading'
 import LongLoading from '../components/longloading'
 import { uploadToCloudinary } from '../lib/cloudianryupload'
+import Uploading from '../components/uploading'
 
 function Create({ onClose }) {
   const { addpin,loading,setloading,UploadPercent} = Pindata()
@@ -38,8 +39,9 @@ function Create({ onClose }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-black">
-        <p>⏳Uploading...{UploadPercent}</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+        <Loadinganimation/>
+       <p>Uploading</p>
       </div>
     )
   }

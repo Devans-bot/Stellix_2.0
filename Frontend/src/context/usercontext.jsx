@@ -21,7 +21,6 @@ export const UserProvider=({children})=>{
             toast.error("User not found");
             return;
           }
-           localStorage.setItem("token", data.token);
 
           toast.success(data.message)
           setuser(data.user)
@@ -40,7 +39,6 @@ export const UserProvider=({children})=>{
     setbtnloading(true)
      try {
           const {data}=await api.post("/api/user/register",{name,email,password})
-          localStorage.setItem("token", data.token);
 
           toast.success(data.message)
           navigate("/")
