@@ -21,14 +21,11 @@ export const UserProvider=({children})=>{
             toast.error("User not found");
             return;
           }
-           localStorage.setItem("token", res.data.token);
+           localStorage.setItem("token", data.token);
 
           toast.success(data.message)
-          setbtnloading(false)
-          navigate("/")
-          fetchpins()
-
           setuser(data.user)
+          navigate("/")
           setisauth(true)
           
      } catch (error) {
@@ -43,18 +40,18 @@ export const UserProvider=({children})=>{
     setbtnloading(true)
      try {
           const {data}=await api.post("/api/user/register",{name,email,password})
-          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("token", data.token);
 
           toast.success(data.message)
-          setbtnloading(false)
           navigate("/")
           fetchpins()
           fetchuser()
           setuser(data.user)
           setisauth(true)
-          setbtnloading(true)
      } catch (error) {
       toast.error(error.response.data.message)
+     }finally{
+      setbtnloading(false)
      }
   }
 
