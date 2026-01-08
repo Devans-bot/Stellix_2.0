@@ -29,70 +29,76 @@ const Aiimage = () => {
   };
 
   // Step 1: Generate image
-  const handleGenerate = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setGeneratedImage(null);
+const handleGenerate = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setGeneratedImage(null);
 
-    try {
-      const res = await fetch("https://stellix-x.onrender.com/api/ai/generate-image", {
+  try {
+    const res = await fetch(
+      "https://stellix-2-0-backend.onrender.com/api/ai/generate-image",
+      {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         body: JSON.stringify({ prompt: form.prompt }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setGeneratedImage(data.image); // store image url + id
-      } else {
-        console.error("Error:", data);
-        alert(data.error || "Failed to generate image");
       }
-    } catch (err) {
-      console.error("Frontend error:", err);
-      alert("Something went wrong");
-    } finally {
-      setLoading(false);
+    );
+
+    const data = await res.json();
+    if (res.ok) {
+      setGeneratedImage(data.image);
+    } else {
+      toast.error(data.error || "Failed to generate image");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    toast.error("Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // Step 2: Save pin
-  const handleSubmit = async () => {
-    if (!generatedImage) return alert("Generate an image first!");
-    
-    
-    try {
-      setbLoading(true)
-      const res = await fetch("https://stellix-x.onrender.com/api/ai/savePin", {
+const handleSubmit = async () => {
+  if (!generatedImage) return alert("Generate an image first!");
+
+  try {
+    setbLoading(true);
+
+    const res = await fetch(
+      "https://stellix-2-0-backend.onrender.com/api/ai/savePin",
+      {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         body: JSON.stringify({
           title: form.title,
           pin: form.description,
           image: generatedImage,
         }),
-      });
-
-      const data = await res.json();
-      toast.success("Pin saved ")
-      navigate("/")
-      if (res.ok) {
-        
-        setForm({ prompt: "", title: "", description: "" });
-        setGeneratedImage(null);
-      } else {
-        console.error("Error:", data);
-        alert(data.error || "Failed to save pin");
       }
-    } catch (err) {
-      console.error("Save error:", err);
-      alert("Something went wrong while saving");
-    }finally{
-      setbLoading(false)
+    );
+
+    const data = await res.json();
+    if (res.ok) {
+      toast.success("Pin saved");
+      navigate("/");
+    } else {
+      toast.error(data.error || "Failed to save pin");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    toast.error("Save failed");
+  } finally {
+    setbLoading(false);
+  }
+};
 
 
 
