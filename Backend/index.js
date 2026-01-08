@@ -54,9 +54,12 @@ app.get("/", (req, res) => {
 });
 
 // ✅ Start Server + Connect DB
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, async () => {
   console.log(`✅ Server running on port ${PORT}`);
   await connectDb();
 });
+console.log("PORT:", process.env.PORT);
+console.log("MONGO_URI:", process.env.MONGO_URI);
+console.log("JWT_SEC:", process.env.JWT_SEC);
