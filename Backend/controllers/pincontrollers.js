@@ -27,12 +27,19 @@ export const createpin = async (req, res) => {
   console.time("TOTAL");
 
   try {
-    const { title, pin } = req.body;
+    const { title, tags, description} = req.body;
     const file = req.file;
+    console.log(title,tags,description)
+   if (!title || !description)
+  return res.status(400).json({ error: "Title and description are required" });
 
-    if (!title || !pin)
-      return res.status(400).json({ error: "Title and pin are required" });
+// convert tags string to array
+const parsedTags = tags
+  ? tags.split(",").map(t => t.trim()).filter(Boolean)
+  : [];
 
+if (parsedTags.length === 0)
+  return res.status(400).json({ error: "At least one tag is required" });
     if (!file)
       return res.status(400).json({ error: "Image file is required" });
 
@@ -43,7 +50,7 @@ export const createpin = async (req, res) => {
     console.time("mongo");
     const newPin = await Pin.create({
       title,
-      pin,
+      description,
       owner: req.user._id,
       image: {
         id: uploadResult.public_id,
@@ -51,7 +58,7 @@ export const createpin = async (req, res) => {
       },
       objects: [],
       colors: [],
-      tags: [],
+      tags:parsedTags,
     });
     console.timeEnd("mongo");
 
@@ -63,7 +70,7 @@ analyzePinAsync(
   newPin._id,
   req.file.buffer,
   newPin.title,
-  newPin.pin
+  newPin.description
 );
 
   } catch (err) {

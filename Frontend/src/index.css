@@ -53,7 +53,7 @@ body {
 }
 
 .common-input{
-  @apply  text-sm text-white bg-black mb-2 h-14 block w-12/12 mt-2  px-3 py-2 border-white border-2 rounded-xl  shadow-sm focus:outline-none sm:text-sm;
+  @apply  text-sm text-white bg-black mb-2 h-14 block w-12/12 mt-1 px-3  border-white border-2 rounded-xl  shadow-sm focus:outline-none sm:text-sm;
 }
 
 .my-masonry-grid {

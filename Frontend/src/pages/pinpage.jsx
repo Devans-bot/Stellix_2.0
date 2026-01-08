@@ -393,7 +393,7 @@ if (!displayPin) return <Loading />;
                 break-words
                 whitespace-normal
                  ">
-    #tags: {pin?.tags}
+    {pin?.description}
   </p>               <Like pin={pin} userId={user._id} />
                 </div>
                 

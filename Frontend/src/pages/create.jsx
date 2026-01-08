@@ -12,17 +12,19 @@ function Create({ onClose }) {
   const { uploadFile, uploadFilePrev, setUploadFile, setUploadFilePrev } = useUpload()
 
   const [title, settitle] = useState("")
-  const [pin, setpin] = useState("")
+   const [tags, settags] = useState("")
+  const [description,setdescription]=useState("")
   const navigate = useNavigate()
 
   const submithandler = async(e) => {
     e.preventDefault()
     const formdata = new FormData()
     formdata.append("title", title)
-    formdata.append("pin", pin)
+    formdata.append("tags", tags)
+    formdata.append("description", description)
     formdata.append("file", uploadFile)
 
-    addpin(formdata, setUploadFilePrev, setUploadFile, settitle, setpin, navigate)
+    addpin(formdata, setUploadFilePrev, setUploadFile, settitle, settags, navigate,setdescription)
 
     // ✅ reset only after submit
     setUploadFile(null)
@@ -34,7 +36,7 @@ function Create({ onClose }) {
     // ✅ reset if cancelled
     setUploadFile(null)
     setUploadFilePrev(null)
-    navigate(-1) // go back
+    navigate("/") // go back
   }
 
   if (loading) {
@@ -48,7 +50,7 @@ function Create({ onClose }) {
 
 
   return (
-    <div className="z-10 md:relative md:left-2/12 md:w-5xl md:flex-row   bg-black overflow-hidden min-h-screen flex flex-col items-center justify-center  ">
+    <div className="z-10 md:relative md:left-2/12 md:w-5xl md:flex-row   bg-black overflow-hidden min-h-screen flex flex-col items-center justify-start mt-5  ">
       {uploadFilePrev ? (
         <div className="overflow-hidden  h-4/12 w-full max-w-md md:max-w-lg lg:max-w-xl md:max-h-lg mx-auto flex items-center justify-center md:justify-end">
         <img src={uploadFilePrev} alt="preview" className="rounded-2xl h-full mb-4 object-contain max-h-[40vh] md:max-h-[70vh] " />
@@ -70,13 +72,21 @@ function Create({ onClose }) {
               placeholder='Pin Title'
             />
 
-            <label className="text-sm">Pin Tags</label>
+            <label className="text-sm">Tags</label>
             <input
               type="text"
               className="common-input "
-              value={pin}
-              onChange={(e) => setpin(e.target.value)}
+              value={tags}
+              onChange={(e) => settags(e.target.value)}
               placeholder='Enter tags eg: nature, art, travel'
+            />
+            <label className='text-sm'>About</label>
+             <input
+              type="text"
+              className="common-input "
+              value={description}
+              onChange={(e) => setdescription(e.target.value)}
+              placeholder='Explain your post 😉'
             />
 
             <div className="flex gap-4 mt-4">

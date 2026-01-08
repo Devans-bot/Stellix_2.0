@@ -33,7 +33,6 @@ function App() {
   const { loading, isauth, user } = userdata();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log("API URL =", import.meta.env.VITE_API_URL);
 
   // keep track of background page when navigating
   const state = location.state;

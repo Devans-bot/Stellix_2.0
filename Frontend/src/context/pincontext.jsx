@@ -105,7 +105,7 @@ export const Pinprovider=({children})=>{
   const [UploadPercent,setUploadPercent]=useState('')
 
   
-  async function addpin(formdata, setUploadFilePrev, setUploadFile, settitle, setpin, navigate) {
+  async function addpin(formdata, setUploadFilePrev, setUploadFile, settitle, settags, navigate,setdescription) {
       setloading(true)
     try {
       setloading(true);
@@ -113,8 +113,9 @@ export const Pinprovider=({children})=>{
       toast.success(data.message);
       setUploadFile([]);
       setUploadFilePrev("");
-      setpin("");
+      settags("");
       settitle("");
+      setdescription("");
       const newPin = data.pin;
     setpins((prev) => [newPin, ...prev]); 
      navigate("/")

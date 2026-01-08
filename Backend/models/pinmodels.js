@@ -3,10 +3,6 @@ import mongoose from "mongoose";
 const pinSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true },
   description: { type: String, trim: true },
-
-  // ⚠️ removed unique:true (otherwise AI pins with same description will fail)
-  pin: { type: String, required: true },
-
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 
   image: {
