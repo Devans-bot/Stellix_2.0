@@ -30,7 +30,7 @@ import PageWrapper from './components/pagewrapper';
 import PinPageSkeleton from './components/pinpageskeleton';
 
 function App() {
-  const { authLoading, isauth, user } = userdata();
+  const { authChecked, isauth, user } = userdata();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ function App() {
   console.log("🚨🚨🚨 NEW FRONTEND CODE RUNNING");
 
 
-if (authLoading) {
+if (!authChecked) {
   return (
     <div className="h-screen w-screen bg-black flex items-center justify-center">
       <Loading />

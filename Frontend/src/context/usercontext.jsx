@@ -12,7 +12,7 @@ export const UserProvider=({children})=>{
   const [user,setuser]=useState('')
   const [isauth,setisauth]=useState(false)
   const [btnloading,setbtnloading]=useState(false)
-  const [authLoading, setAuthLoading] = useState(true); // 👈 NEW
+const [authChecked, setAuthChecked] = useState(false);
 
 
   async function loginuser(email,password,navigate,fetchpins){
@@ -63,14 +63,12 @@ async function fetchuser() {
     const { data } = await api.get("/api/user/me");
     setuser(data);
     setisauth(true);
-  } catch (error) {
-    setuser(null);
+  } catch {
     setisauth(false);
   } finally {
-    setAuthLoading(false); // 👈 ONLY ends here
+    setAuthChecked(true); // ✅ critical
   }
 }
-
 
 
 
@@ -124,7 +122,7 @@ async function updatename(name,navigate) {
     fetchuser();
   },[])
     return (
-        <Usercontext.Provider value={{loginuser,authLoading,updatename,btnloading,isauth,user,loading,registeruser,setisauth,setuser,follow,forgot,reset}}>
+        <Usercontext.Provider value={{authChecked,loginuser,authLoading,updatename,btnloading,isauth,user,loading,registeruser,setisauth,setuser,follow,forgot,reset}}>
           {children}
         <Toaster/>
         </Usercontext.Provider>
