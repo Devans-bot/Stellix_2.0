@@ -34,11 +34,10 @@ app.use(express.json());
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://stellix-frontend.onrender.com" // 👈 your frontend URL
+    "https://stellix-2-0-frontend.onrender.com" // 👈 frontend render URL
   ],
   credentials: true,
 }));
-
 
 app.use((req, res, next) => {
   console.log("🌐 REQUEST:", req.method, req.url);
