@@ -31,11 +31,12 @@ app.get("/ping", (req, res) => {
 // ✅ Middlewares
 app.use(cookieParser());
 app.use(express.json());
-
 app.use(cors({
-  origin: "https://stellix-2-0-frontend.onrender.com", // 👈 frontend render URL
+  origin: "https://stellix-2-0-frontend.onrender.com",
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
+
 
 app.use((req, res, next) => {
   console.log("🌐 REQUEST:", req.method, req.url);

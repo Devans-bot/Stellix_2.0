@@ -5,7 +5,7 @@ const genratetoken=(id,res)=>{
         expiresIn:"15d"
     })
 
- res.cookie("token", token, {
+  res.cookie("token", token, {
     httpOnly: true,
     secure: true,          // ✅ REQUIRED for Safari
     sameSite: "none",      // ✅ REQUIRED for Safari
