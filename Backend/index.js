@@ -9,12 +9,7 @@ import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
 import cors from 'cors'
 
-import path from "path";
-import { fileURLToPath } from "url";
 
-// ✅ recreate __dirname for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -55,16 +50,6 @@ app.use('/api/user', userroutes);
 app.use('/api/pins', pinroutes);
 app.use('/api/boards', boardroutes);
 app.use('/api/ai', airoutes);
-
-
-// ✅ Serve Frontend (production)
-const frontendPath = path.join(__dirname,"../Frontend/dist");
-app.use(express.static(frontendPath));
-
-// ⚡️ Express 5-safe wildcard route (fixes your crash)
-app.get(/.*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../Frontend/dist", "index.html"));
-  });
 
 // ✅ Start Server + Connect DB
 const PORT = process.env.PORT || 5001;
