@@ -32,10 +32,7 @@ app.get("/ping", (req, res) => {
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://stellix-2-0-frontend.onrender.com" // 👈 frontend render URL
-  ],
+  origin: "https://stellix-2-0-frontend.onrender.com", // 👈 frontend render URL
   credentials: true,
 }));
 

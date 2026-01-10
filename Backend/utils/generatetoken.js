@@ -7,8 +7,9 @@ const genratetoken=(id,res)=>{
 
 res.cookie("token", token, {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  secure: true,          // REQUIRED for Safari
+  sameSite: "none",      // REQUIRED for cross-site cookies
+  maxAge: 7 * 24 * 60 * 60 * 1000,
 });
 
 }
