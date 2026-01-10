@@ -27,13 +27,15 @@ const Boardspreview=()=>{
 
     <>
 
-<div className="hidden md:grid   w-3xl p-3 mt-7 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6  ">
+<div className="hidden md:grid w-3xl p-3 mt-7 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6  ">
 
     {boards.map((board) => (
       <div
         key={board._id}
         onClick={() => navigate(`/boards/${board._id}`)}
-        className="h-11/12 relative overflow-hidden rounded-3xl bg-black/30   bg-opacity-40 flex 
+        className="h-11/12   bg-black/10
+  backdrop-blur-md
+  border-3 border-white/10 relative overflow-hidden rounded-3xl bg-black/30   bg-opacity-40 flex 
                    shadow-md duration-300 hover:scale-110 transition active:scale-95"
                    onTouchStart={() => setPressed(true)}
                    onTouchEnd={() => setPressed(false)}
@@ -44,7 +46,7 @@ const Boardspreview=()=>{
           <img
             src={board.previewImage.url}
             alt={board.name}
-            className="w-full h-full object-cover"
+            className="w-full   h-full object-cover"
           />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -83,7 +85,9 @@ const Boardspreview=()=>{
         onTouchStart={() => setPressedId(board._id)}
         onTouchEnd={() => setPressedId(null)}
         onClick={() => navigate(`/boards/${board._id}`)}
-        className={`relative cursor-pointer rounded-[30%] aspect-square overflow-hidden shadow-md transition-transform duration-150 ${
+        className={`relative   bg-black/10
+  backdrop-blur-md
+  border-3 border-white/10 cursor-pointer rounded-[30%] aspect-square overflow-hidden shadow-md transition-transform duration-150 ${
           pressedId === board._id ? "scale-95" : "scale-100"
         }`}
       >
@@ -92,7 +96,7 @@ const Boardspreview=()=>{
           <img
             src={board.previewImage.url}
             alt={board.name}
-            className="w-full h-full object-cover"
+            className="w-full  h-full object-cover"
           />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center">

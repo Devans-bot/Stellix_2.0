@@ -131,7 +131,7 @@ const Account = ({ user }) => {
 
      <div className='md:ml-40 flex flex-col  gap-5'>
        <div ref={pinsRef} className="w-full mt-6">
-        <ProfilePreviewCard title="Your Pins" redirect="/mypins" />
+        <ProfilePreviewCard title="Your Drops" redirect="/mypins" />
       </div>
 
       {/* Boards Preview */}

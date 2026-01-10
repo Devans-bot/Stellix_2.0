@@ -90,11 +90,8 @@ const Boardpins = () => {
     }
   }
 
-  
-
   const deleteboard=async()=>{
     try {
-      setlo
       const {data}=await api.post(`/api/boards/deleteboard/${boardId}`)
       toast.success(data.message)
       navigate("/account")
@@ -119,9 +116,9 @@ if(loading){
       />
     {open && 
     <div           ref={openref}
-    className='h-20 w-30 bg-blue-500 text-white absolute top-5 right-7 z-20 rounded-2xl flex flex-col items-center justify-evenly gap-2'>
-        <button onClick={()=>{setdeletemode(true);setopen(false)}}>Delete Pins</button>
-        <button onClick={deleteboard}>Delete board</button>
+    className='h-20 w-30 p-1 text-xs bg-blue-500 text-white absolute top-5 right-7 z-20 rounded-2xl flex flex-col items-center justify-evenly gap-2'>
+        <button onClick={()=>{setdeletemode(true);setopen(false)}}>Delete Drops</button>
+        <button onClick={deleteboard}>Delete Spaces</button>
     </div>}
     </div>
     <div className='p-4   pt-10'>

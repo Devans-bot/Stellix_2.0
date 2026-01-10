@@ -11,9 +11,12 @@ import { setCachedPin, getCachedPin, hasCachedPin } from "../components/pinPrevi
 
 import Searchbar from '../components/searchbar'
 import api from '../lib/axios.js'
+import PinPageSkeleton from '../components/pinpageskeleton.jsx'
+import HomePinsSkeleton from '../components/pinskeletons.jsx'
+import PullToRefresh from '../components/pulltorefresh.jsx'
 
 const Home = () => {
-  const { pins, loading,filter,setfilter } = Pindata()
+  const { pins, loading,filter,setfilter,fetchpins } = Pindata()
  const location=useLocation()
   const observerRef = useRef(null);
 const pinElementsRef = useRef(new Map());
@@ -69,17 +72,13 @@ useEffect(() => {
     480: 2,
   };
 
-  if (loading) return <Loading />
 
- 
-  
-  
   return (
 
-
+  
  
 
-<div className='-mb-2  overflow-hidden scrollbar-none min-h-screen'> 
+<div className='-mb-2 scrollbar-none min-h-screen'>
     
     <div className=" bg-[#00000] overflow-hidden mt-28 w-8xl pl-40 hidden md:block">
     <div className="  fixed top-0 left-0 right-0 z-1 bg-black/90 backdrop-blur-md px-6 pb-20 pt-5  h-1/10">
@@ -91,7 +90,8 @@ placeholder='Search..'
         />
       </div>
       <Topics/>
-      <Masonry
+      {loading ? <HomePinsSkeleton/> :
+        <Masonry
         breakpointCols={desktopview}
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
@@ -129,60 +129,69 @@ placeholder='Search..'
           />
 ))}
       </Masonry>
+      }
+    
 
       
     </div>
     {open && <Searchbar isopen={open} setisopen={setopen}/>}
+  <div
+    id="home-scroll-root"
+    className="bg-[#0F0E15] h-screen overflow-y-auto mt-16  px-4 block md:hidden"
+  >
 
+    <Topics />
 
-    
-    <div  id="home-scroll-root" className="bg-[#0F0E15] min-h-screen   mt-10 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 block md:hidden">
-      
-      <Topics/>
+    {loading && <HomePinsSkeleton />}
 
-      {pins.length===0 ? (
-        <p className="text-center  mt-10">You follow none 😖</p>
-      ):(
+    {!loading && pins.length === 0 && (
+      <p className="text-center mt-10">You follow none 😖</p>
+    )}
 
-   <Masonry
+    {!loading && pins.length > 0 && (
+      <PullToRefresh onRefresh={fetchpins}>
+
+      <Masonry
         breakpointCols={mobileview}
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
-        {pins.map((pin,i) => (
+        {pins.map((pin) => (
           <Pincard
-          key={pin._id}
-          pin={pin}
-          registerNode={(el) => {
-            if (!el) return;
-            el.dataset.id = pin._id;
-            pinElementsRef.current.set(pin._id, el);
-            observerRef.current?.observe(el);
-          }}
-          unregisterNode={() => {
-            const el = pinElementsRef.current.get(pin._id);
-            if (el) observerRef.current?.unobserve(el);
-            pinElementsRef.current.delete(pin._id);
-          }}
-          onOpen={(preview) => {
-            const safePreview = preview || getCachedPin(pin._id);
-            setCachedPin(pin._id, safePreview);
-            navigate(`/pin/${pin._id}`, {
-              state: {
-                background: location, // ✅ matches your App.jsx route transition logic
-                pinPreview: safePreview
-                  ? JSON.parse(JSON.stringify(safePreview))
-                  : null,
-              },
-            });
-            
-          }}     
-        />
-))}
+            key={pin._id}
+            pin={pin}
+            registerNode={(el) => {
+              if (!el) return;
+              el.dataset.id = pin._id;
+              pinElementsRef.current.set(pin._id, el);
+              observerRef.current?.observe(el);
+            }}
+            unregisterNode={() => {
+              const el = pinElementsRef.current.get(pin._id);
+              if (el) observerRef.current?.unobserve(el);
+              pinElementsRef.current.delete(pin._id);
+            }}
+            onOpen={(preview) => {
+              const safePreview = preview || getCachedPin(pin._id);
+              setCachedPin(pin._id, safePreview);
+              navigate(`/pin/${pin._id}`, {
+                state: {
+                  background: location,
+                  pinPreview: safePreview
+                    ? JSON.parse(JSON.stringify(safePreview))
+                    : null,
+                },
+              });
+            }}
+          />
+        ))}
       </Masonry>
-      )}
+      </PullToRefresh>
+
+    )}
+  </div>
+
    
-    </div>
 
     </div>
 

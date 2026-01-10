@@ -8,6 +8,8 @@ const extractWords = (text = "") =>
     .split(/[\s,.;:!?()"'`]+/)
     .filter((w) => w.length > 2 && !stopwords.has(w));
 
+ const stopwords = new Set(["a","an","the","is","in","to","of","and","for","on","at","by"]);
+
 const analyzePinAsync = async (pinId, buffer, title, pin) => {
   try {
     const { objects, colors } = await analyzeImage(buffer);

@@ -23,4 +23,5 @@ router.post("/dp/:id", isauth, uploadfile, updateProfilePicture);
 
 // ⚠️ ALWAYS LAST
 router.get("/:id", getUserProfile);
+
 export default router   

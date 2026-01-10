@@ -55,9 +55,11 @@ const Getstarted = () => {
        <h2 className='font-bold text-xl mt-1'>Continue to Stellix </h2>
        <h3 className='text-sm mt-3'>Hmm, it looks like you dont't have an account yet. Let's get started ! </h3>
        </div>
-        <div className="w-full max-w-xs h-11 mt-4 rounded-2xl bg-blue-600 flex items-center justify-center text-white p-2 hover:bg-blue-800">
-   <Link to="/register">Sign Up !</Link>
+        <Link to="/register">
+        <div className="w-90 h-11 mt-4 rounded-2xl bg-blue-600 flex items-center justify-center text-white p-2 hover:bg-blue-800">
+        <p className='w-full h-full text-center'>Sign up !</p>
 </div>
+</Link>
       </div>
       </div>
       
@@ -68,11 +70,16 @@ const Getstarted = () => {
 
 
 
-<div className='bg-black block md:hidden relative h-screen z-0'>
-      
-      <img src={myimage} alt=""  
-      className="absolute inset-0 p-3 w-full h-full object-cover z-0"
- />
+<div
+  className="block md:hidden h-screen bg-black"
+  style={{
+    backgroundImage: `url(${myimage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  }}
+>
+  <div className="h-full bg-black/60 flex flex-col items-center justify-center">      
       
       <div className="absolute inset-0 bg-black/60 z-10 flex flex-col items-center justify-center pb-50"  > 
 
@@ -102,14 +109,16 @@ const Getstarted = () => {
       <div className='h-40 absolute bottom-1  text-black w-full bg-white rounded-t-3xl p-3'>  
         <h2 className='font-bold text-xl mt-1'>Continue to Stellix </h2>
         <h3 className='text-sm mt-3'>Hmm, it looks like you dont't have an account yet. Let's get started ! </h3>
-        <div className="w-full max-w-xs h-11 mt-4 rounded-2xl bg-blue-600 flex items-center justify-center text-white p-2 active:bg-blue-800 active:scale-90 transition duration-300">
-   <Link to="/register">Sign Up !</Link>
-</div>
+        <Link to="/register">
+        <div className="w-full max-w-xs h-11 mt-4 rounded-2xl bg-blue-600 flex items-center justify-center text-white p-2 active:bg-blue-950 active:scale-90 transition duration-300">
+        <p className=' w-full h-full text-center'> Sign Up ! </p>
+        </div>
+</Link>
       </div>
       </div>
       
     </div>
-    
+    </div>
 </>
     
   )

@@ -12,6 +12,8 @@ export const UserProvider=({children})=>{
   const [user,setuser]=useState('')
   const [isauth,setisauth]=useState(false)
   const [btnloading,setbtnloading]=useState(false)
+  const [authLoading, setAuthLoading] = useState(true); // 👈 NEW
+
 
   async function loginuser(email,password,navigate,fetchpins){
     setbtnloading(true)
@@ -21,7 +23,7 @@ export const UserProvider=({children})=>{
             toast.error("User not found");
             return;
           }
-
+          fetchpins()
           toast.success(data.message)
           setuser(data.user)
           navigate("/")
@@ -56,23 +58,19 @@ export const UserProvider=({children})=>{
   const [loading,setloading]=useState(false)
 
 
-  async function fetchuser() {
-    try {
-      setloading(true)
-      const { data } = await api.get("/api/user/me");
-      setuser(data);
-      setisauth(true);
-    } catch (error) {
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        // not authenticated
-        setisauth(false);
-       setloading(false)
-      }
-    } finally {
-      setloading(false);
-    }
-    
+async function fetchuser() {
+  try {
+    const { data } = await api.get("/api/user/me");
+    setuser(data);
+    setisauth(true);
+  } catch (error) {
+    setuser(null);
+    setisauth(false);
+  } finally {
+    setAuthLoading(false); // 👈 ONLY ends here
   }
+}
+
 
 
 
@@ -126,7 +124,7 @@ async function updatename(name,navigate) {
     fetchuser();
   },[])
     return (
-        <Usercontext.Provider value={{loginuser,updatename,btnloading,isauth,user,loading,registeruser,setisauth,setuser,follow,forgot,reset}}>
+        <Usercontext.Provider value={{loginuser,authLoading,updatename,btnloading,isauth,user,loading,registeruser,setisauth,setuser,follow,forgot,reset}}>
           {children}
         <Toaster/>
         </Usercontext.Provider>

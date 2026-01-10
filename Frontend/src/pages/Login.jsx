@@ -32,7 +32,7 @@ const Login = () => {
   return (
     <> 
     <div className='w-full h-full flex items-center justify-center'>
-    <div className='max-w-md bg-black h-screen   overflow-hidden shadow-lg'>
+    <div className='w-9/12 bg-black h-screen   overflow-hidden shadow-lg'>
           
           {/* Logo */}
           <BackButton/>
@@ -43,7 +43,7 @@ const Login = () => {
 
           {/* Login Form */}
           <form onSubmit={submithandler}>
-            <div className='text-white mt-10 flex flex-col items-center justify-centre'>
+            <div className='text-white w-full mt-10 flex flex-col items-center justify-centre'>
 
              
               <input

@@ -3,6 +3,7 @@ import { boarddata } from '../context/boardcontext';
 import { useNavigate } from 'react-router-dom';
 import { useReducer } from 'react';
 import gsap from 'gsap';
+import { IoPlanetOutline } from 'react-icons/io5';
 
 const Board = () => {
   const {newboard}= boarddata();
@@ -46,7 +47,10 @@ const Board = () => {
   return (
     <div className="h-screen fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:w-1/3 lg:w-2/3 bg-black p-3 pt-6">
       <div  className=" flex flex-col items-center gap-7">
-        <h1 ref={boxref} className="text-white text-xl">Create Board</h1>
+     <div className='w-full h-full flex justify-center gap-2'>   
+      <h1 ref={boxref} className="text-white text-xl">Create Space</h1>
+        <IoPlanetOutline className='text-3xl'/></div>
+
 
         <form ref={inputref}  onSubmit={submitHandler} className="w-full flex flex-col items-center gap-4">
           <input
@@ -55,7 +59,7 @@ const Board = () => {
             value={name}
             onChange={(e) => setname(e.target.value)}
             className="rounded-xl text-white bg-black focus:outline-none focus:border-white border-2 border-white w-full p-5 placeholder-white placeholder:text-md pl-3 caret-white"
-            placeholder="Board name"
+            placeholder="Space name"
           />
           <button 
           ref={btnref}

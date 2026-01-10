@@ -5,11 +5,12 @@ const genratetoken=(id,res)=>{
         expiresIn:"15d"
     })
 
-    res.cookie("token",token,{
-        maxAge:15*24*60*60*1000,
-        httpOnly:true,
-        sameSite:"lax"
-    })
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+});
+
 }
 
 export default genratetoken

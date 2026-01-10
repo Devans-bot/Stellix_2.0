@@ -15,7 +15,7 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
+ 
 
 const extractWords = (text = "") =>
   text
@@ -312,35 +312,44 @@ export const getFollowingPins = async (req, res) => {
   }
 }
 
+
 export const relatedpins = async (req, res) => {
   try {
     const { pinId } = req.body;
 
-    // 1️⃣ Find the current pin
-    const currentPin = await Pin.findById(pinId);
-    if (!currentPin) return res.status(404).json({ error: "Pin not found" });
+    const pin = await Pin.findById(pinId);
+    if (!pin) {
+      return res.status(404).json({ message: "Pin not found" });
+    }
 
-    // 2️⃣ Take only objects as tags
-    const objects = currentPin.objects || [];
-    if (objects.length === 0) return res.status(200).json({ total: 0, results: [] });
+    // combine all relevant text
+    const searchText = [
+      pin.title,
+      pin.description,
+      ...(pin.tags || []),
+      pin.ocrText,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
-    // 3️⃣ Build regex conditions for OR search
-    const regexConditions = objects.map(obj => {
-      const safe = obj.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // escape regex special chars
-      return { objects: { $regex: safe, $options: "i" } };
-    });
-
-    // 4️⃣ Find related pins excluding current pin
-    const relatedPins = await Pin.find({
-      _id: { $ne: currentPin._id },
-      $or: regexConditions,
-    })
-      .limit(10)
-      .sort({ createdAt: -1 });
+    const relatedPins = await Pin.find(
+      {
+        $text: { $search: searchText },
+        _id: { $ne: pin._id },
+      },
+      {
+        score: { $meta: "textScore" },
+      }
+    )
+      .sort({ score: { $meta: "textScore" } })
+      .limit(20);
 
     res.json({ total: relatedPins.length, results: relatedPins });
   } catch (error) {
-    console.error("relatedpins error:", error);
-    res.status(500).json({ error: "Error fetching related pins" });
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch related pins" });
   }
 };
+
+
+  

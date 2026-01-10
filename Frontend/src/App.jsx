@@ -30,15 +30,23 @@ import PageWrapper from './components/pagewrapper';
 import PinPageSkeleton from './components/pinpageskeleton';
 
 function App() {
-  const { loading, isauth, user } = userdata();
+  const { authLoading, isauth, user } = userdata();
   const location = useLocation();
   const navigate = useNavigate();
 
   // keep track of background page when navigating
   const state = location.state;
   const background = state && state.background;
+  console.log("🚨🚨🚨 NEW FRONTEND CODE RUNNING");
 
-  if (loading) return <Loading />;
+
+if (authLoading) {
+  return (
+    <div className="h-screen w-screen bg-black flex items-center justify-center">
+      <Loading />
+    </div>
+  );
+}
 
   return (
     <>

@@ -1,11 +1,11 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiBloggerLine } from "react-icons/ri";
-import { IoMdHome } from "react-icons/io";
+import { IoIosPlanet, IoMdHome } from "react-icons/io";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import Searchbar from "./searchbar";
 import Topics from "./topics";
-import { IoCreateOutline } from "react-icons/io5";
+import { IoCreateOutline, IoPlanetOutline } from "react-icons/io5";
 import { TbLayoutCollage } from "react-icons/tb";
 import { useUpload } from "../context/uploadcontext";
 import { FaSearch } from "react-icons/fa";
@@ -13,14 +13,16 @@ import useOutsideClick from "./popupremove";
 import { GiFairyWand } from "react-icons/gi";
 import { HiOutlineHome } from "react-icons/hi2";
 import { TbEdit } from "react-icons/tb";
-import { MdOutlineCollectionsBookmark } from "react-icons/md";
-import { BsStars } from "react-icons/bs";
+import { MdOutlineCollectionsBookmark, MdOutlineStars } from "react-icons/md";
+import { BsDroplet, BsStars } from "react-icons/bs";
 import gsap from "gsap";
 import { RiSearch2Line } from "react-icons/ri";
 import { LuCircleFadingPlus } from "react-icons/lu";
 import { NIL } from "uuid";
 import logo from "../assets/S.gif";
 import imageCompression from "browser-image-compression";
+import { Droplet, Droplets, Space } from "lucide-react";
+import { TiStarburstOutline } from "react-icons/ti";
 
 
 
@@ -197,7 +199,9 @@ const changefilehandler = async (e) => {
 
       {/* ✅ Mobile Bottom Navbar */}
 
-      <div className="fixed  md:hidden  bottom-3 left-1/2 transform -translate-x-1/2 flex items-center gap-4 justify-evenly h-13  z-40  p-4  w-70 rounded-3xl bg-black/70 backdrop-blur-md border-1 border-black">
+      <div className="fixed 
+  backdrop-blur-xl
+  border-2 border-white/10  md:hidden  bottom-3 left-1/2 transform -translate-x-1/2 flex items-center gap-4 justify-evenly h-13  z-40  p-4  w-70 rounded-3xl bg-black/70 ">
       <Link to="/">
          <HiOutlineHome className={` size-7 active:scale-130 transition-transform duration-200 ease-out ${location.pathname === "/" ? "text-white" : "text-white"}`}/>
          {/* <IoMdHome `} /> */}
@@ -222,7 +226,7 @@ const changefilehandler = async (e) => {
   <img
     src={user.image.url}
     alt={user?.name || 'profile'}
-    className="w-full h-full object-cover rounded-full"
+    className="w-full h-full object-cover border-2 border-blue-500/50 rounded-full"
     onTouchStart={() => setPressed(true)}
     onTouchEnd={() => setPressed(false)}
   />
@@ -273,9 +277,9 @@ const changefilehandler = async (e) => {
                 accept="image/*"
                 className="hidden"
               />
-              <TbEdit 
+              <BsDroplet 
               className="text-2xl text-white active:scale-130 transition-transform duration-200 ease-out" />
-              <h2 className="text-xs text-white">Post</h2>
+              <h2 className="text-xs text-white">Drop</h2>
             </div>
           )}
   
@@ -285,9 +289,9 @@ const changefilehandler = async (e) => {
             onClick={() => setOpen((prev) => !prev)}
             className="flex ml-3 flex-col items-center gap-2 "
           >
-            <MdOutlineCollectionsBookmark 
-             className="text-2xl text-white active:scale-130 transition-transform duration-200 ease-out" />
-            <h2 className="text-xs text-white">Board</h2>
+            <IoPlanetOutline
+             className="text-3xl text-white active:scale-130 transition-transform duration-200 ease-out" />
+            <h2 className="text-xs text-white">Space</h2>
           </Link>
   
           {/* Magic AI */}
@@ -296,7 +300,7 @@ const changefilehandler = async (e) => {
             onClick={() => setOpen((prev) => !prev)}
             className="flex flex-col items-center gap-2 active:scale-130 transition-transform duration-200 ease-out"
           >
-            <BsStars 
+            <TiStarburstOutline
             className="text-2xl text-white active:scale-130 transition-transform duration-200 ease-out" />
             <h2 className="text-xs text-white">Magic Ai</h2>
           </Link>

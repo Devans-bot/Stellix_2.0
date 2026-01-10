@@ -50,10 +50,10 @@ function Create({ onClose }) {
 
 
   return (
-    <div className="z-10 md:relative md:left-2/12 md:w-5xl md:flex-row   bg-black overflow-hidden min-h-screen flex flex-col items-center justify-start mt-5  ">
+    <div className="z-10 md:relative md:left-2/12 md:w-5xl md:flex-row   bg-black overflow-hidden min-h-screen flex flex-col items-center justify-start pt-10 ">
       {uploadFilePrev ? (
         <div className="overflow-hidden  h-4/12 w-full max-w-md md:max-w-lg lg:max-w-xl md:max-h-lg mx-auto flex items-center justify-center md:justify-end">
-        <img src={uploadFilePrev} alt="preview" className="rounded-2xl h-full mb-4 object-contain max-h-[40vh] md:max-h-[70vh] " />
+        <img src={uploadFilePrev} alt="preview" className="border-3 border-white/30 rounded-2xl h-full mb-4 object-contain max-h-[40vh] md:max-h-[70vh] " />
 
 </div>
       ) : (
@@ -66,7 +66,7 @@ function Create({ onClose }) {
             <label className="text-sm">Title</label>
             <input
               type="text"
-              className="common-input"
+              className="common-input-small"
               value={title}
               onChange={(e) => settitle(e.target.value)}
               placeholder='Pin Title'
@@ -75,7 +75,7 @@ function Create({ onClose }) {
             <label className="text-sm">Tags</label>
             <input
               type="text"
-              className="common-input "
+              className="common-input-small "
               value={tags}
               onChange={(e) => settags(e.target.value)}
               placeholder='Enter tags eg: nature, art, travel'
@@ -83,7 +83,7 @@ function Create({ onClose }) {
             <label className='text-sm'>About</label>
              <input
               type="text"
-              className="common-input "
+              className="common-input-small "
               value={description}
               onChange={(e) => setdescription(e.target.value)}
               placeholder='Explain your post 😉'

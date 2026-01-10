@@ -3,6 +3,7 @@ import { FaSearch, FaHistory } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useOutsideClick from "./popupremove";
 import gsap from "gsap";
+import api from '../lib/axios'
 
 const Searchbar = ({ isopen, setisopen }) => {
   const navigate = useNavigate();

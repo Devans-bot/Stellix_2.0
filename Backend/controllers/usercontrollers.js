@@ -38,11 +38,14 @@ export const registeruser=async(req,res)=>{
 
 
 export const login=async(req,res)=>{
+    console.log("🔥 LOGIN HIT");
+console.log("BODY:", req.body);
+console.log("COOKIES:", req.cookies);
     const {email,password}=req.body
 
 
     
-    if(!email && !password)return res.status(404).json({message:"Input details !"})
+    if(!email || !password)return res.status(404).json({message:"Input details !"})
 
 
     let user = await User.findOne({email})
@@ -52,21 +55,23 @@ export const login=async(req,res)=>{
 
     const compare= await bcrypt.compare(password,user.password)
 
-    if(!compare) return res.status(404).json({
-        message:"User not found"
-    })
+    if(!compare) return res.status(401).json({ message: "Invalid credentials" });
+
 
      genratetoken(user._id,res);
 
-    res.status(200).json({
-        message: "Logged in!",
-        user: {
-          _id: user._id,
-          name: user.name,
-          email: user.email
-          // any other fields you want to send
-        }
-      });
+   res.status(200).json({
+  success: true,
+  message: "Logged in!",
+  user: {
+    _id: user._id,
+    name: user.name,
+    email: user.email
+  }
+});
+
+    
+
 }
 
 

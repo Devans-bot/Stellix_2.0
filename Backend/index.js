@@ -7,14 +7,17 @@ import boardroutes from './routes/boardroutes.js';
 import pinroutes from './routes/pinroutes.js';
 import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import cors from 'cors'
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+// ✅ recreate __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
-// ✅ Fix for __dirname in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // ✅ Cloudinary config
 cloudinary.v2.config({
@@ -25,15 +28,34 @@ cloudinary.v2.config({
 
 const app = express();
 
+app.get("/ping", (req, res) => {
+  console.log("🔥 PING HIT");
+  res.json({ ok: true });
+});
+
 // ✅ Middlewares
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://stellix-frontend.onrender.com" // 👈 your frontend URL
+  ],
+  credentials: true,
+}));
+
+
+app.use((req, res, next) => {
+  console.log("🌐 REQUEST:", req.method, req.url);
+  next();
+});
 
 // ✅ API Routes
 app.use('/api/user', userroutes);
 app.use('/api/pins', pinroutes);
 app.use('/api/boards', boardroutes);
 app.use('/api/ai', airoutes);
+
 
 // ✅ Serve Frontend (production)
 const frontendPath = path.join(__dirname,"../Frontend/dist");
@@ -45,9 +67,9 @@ app.get(/.*/, (req, res) => {
   });
 
 // ✅ Start Server + Connect DB
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, async () => {
-  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`✅ Server running on ${PORT}`);
   await connectDb();
 });

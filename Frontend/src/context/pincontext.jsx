@@ -15,16 +15,17 @@ export const Pinprovider=({children})=>{
      const [filter,setfilter]=useState("all")
 
      async function fetchpins(){
+      setloading(true)
       try {
         const url = filter === "following" ? "/api/pins/following":"/api/pins/all"
         const {data}=await api.get(url)
         setpins(data)
-        setloading(false)
         if(filter===pins){
           console.log(pins)
         }
       } catch (error) {
-      
+        console.log(error)
+      }finally{
         setloading(false)
       }
      }
