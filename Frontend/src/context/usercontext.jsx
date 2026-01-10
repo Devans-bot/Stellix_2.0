@@ -9,7 +9,7 @@ const Usercontext=createContext()
 
 export const UserProvider=({children})=>{
 
-  const [user,setuser]=useState('')
+  const [user,setuser]=useState(null)
   const [isauth,setisauth]=useState(false)
   const [btnloading,setbtnloading]=useState(false)
 const [authChecked, setAuthChecked] = useState(false);
