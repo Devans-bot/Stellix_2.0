@@ -122,7 +122,7 @@ async function updatename(name,navigate) {
     fetchuser();
   },[])
     return (
-        <Usercontext.Provider value={{authChecked,loginuser,authLoading,updatename,btnloading,isauth,user,loading,registeruser,setisauth,setuser,follow,forgot,reset}}>
+        <Usercontext.Provider value={{authChecked,loginuser,updatename,btnloading,isauth,user,loading,registeruser,setisauth,setuser,follow,forgot,reset}}>
           {children}
         <Toaster/>
         </Usercontext.Provider>
