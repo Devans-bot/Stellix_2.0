@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://stellix-2-0.onrender.com",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
