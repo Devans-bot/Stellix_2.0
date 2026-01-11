@@ -16,7 +16,7 @@ import HomePinsSkeleton from '../components/pinskeletons.jsx'
 import PullToRefresh from '../components/pulltorefresh.jsx'
 
 const Home = () => {
-  const { pins, loading,filter,setfilter,fetchpins } = Pindata()
+  const { pins, loading,fetchpins } = Pindata()
  const location=useLocation()
   const observerRef = useRef(null);
 const pinElementsRef = useRef(new Map());
@@ -24,7 +24,8 @@ const pinElementsRef = useRef(new Map());
 
  const prefetchPin = async (id) => {
   try {
-    const res = await api.get(`/api/pins/${id}`);
+    const res = api.get(`/api/pins/single/${id}`);
+
     if (res?.data) setCachedPin(id, res.data);
   } catch {
     // fallback minimal cache to avoid refetch delay
